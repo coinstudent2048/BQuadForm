@@ -66,6 +66,17 @@ class TestBQuadForm(unittest.TestCase):
         self.assertEqual((test.a, test.b, test.c), (9, 4, 58694))
         test = BQuadForm(729, 626, 859).square()
         self.assertEqual((test.a, test.b, test.c), (419, -412, 1362))
+    def test_cube(self):
+        test = BQuadForm(31, 24, 15951).cube()
+        self.assertEqual((test.a, test.b, test.c), (286, 54, 1731))
+        test = BQuadForm(19, 18, 26022).cube()
+        self.assertEqual((test.a, test.b, test.c), (79, 38, 6262))
+        test = BQuadForm(22, 6, 225).cube()
+        self.assertEqual((test.a, test.b, test.c), (70, 54, 81))
+        test = BQuadForm(19, -12, 262).cube()
+        self.assertEqual((test.a, test.b, test.c), (61, 22, 83))
+        test = BQuadForm(3, -2, 176081).cube()
+        self.assertEqual((test.a, test.b, test.c), (27,22,19569))
     def test_exp(self):
         test = BQuadForm(2, 1, 3) ** 6
         self.assertEqual((test.a, test.b, test.c), (1, 1, 6))
