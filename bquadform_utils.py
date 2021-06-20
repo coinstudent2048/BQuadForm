@@ -50,7 +50,7 @@ def ext_euclid(a, b):
     # [Finished?]
     while v3 != 0:
         # [Euclidean step]
-        q, t3 = divmod(d, v3)   # a & b are assumed non-negative
+        q, t3 = divmod_euclid(d, v3)   # allow negative inputs
         t1 = u - q * v1
         u = v1
         d = v3
@@ -61,14 +61,15 @@ def ext_euclid(a, b):
     return (u, v, d)
 
 # extended partial Euclidean algorithm
-# referece: Sub-algorithm PARTEUCL(a, b) (p. 248) of Cohen -
+# reference: Sub-algorithm PARTEUCL(a, b) (p. 248) of Cohen -
 # "A Course in Computational Algebraic Number theory" (GTM 138)
-def part_euclid(a, b, L):
+# note: this is modified to accommodate NUCUBE
+def part_euclid(a, b, L, C2 = 0, C1 = 1):   # default C2 and C1 are from Cohen
     # [Initialize]
-    v = 0
-    d = a
-    v2 = 1
-    v3 = b
+    v = C2
+    d = a   # = R2 from Sayles
+    v2 = C1
+    v3 = b   # = R1 from Sayles
     z = 0
     # [Finished?]
     while abs(v3) > L:
@@ -80,10 +81,7 @@ def part_euclid(a, b, L):
         v2 = t2
         v3 = t3
         z += 1
-    # [Finished?] cont.
-    if z % 2 == 1:
-        v2 = -v2
-        v3 = -v3
+    # final computations moved to NUCOMP and NUDUPL functions
     return (v, d, v2, v3, z)
 
 # TODO: implement Lehmer variants for ext_euclid and part_euclid
