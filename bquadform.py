@@ -100,6 +100,7 @@ class BQuadForm:
     # reference: Equation 2.3 (p.12) of Sayles -
     # "Improved Arithmetic in the Ideal Class Group of Imaginary Quadratic Number Fields
     # with an Application to Integer Factoring"
+    # https://prism.ucalgary.ca/bitstream/handle/11023/752/ucalgary_2013_sayles_maxwell.pdf
     def inverse(self):
         return BQuadForm(self.a, -self.b, self.c)
 
@@ -160,6 +161,9 @@ class BQuadForm:
         if A1 < A:
             A = -A1
         v, d, v2, v3, z = part_euclid(a1, A, self.L)
+        if z % 2 == 1:   # final computations of PARTEUCL
+            v2 = -v2
+            v3 = -v3
         # [Special case]
         if z == 0:
             Q1 = a2 * v3
@@ -204,6 +208,9 @@ class BQuadForm:
             C = -C1
         # [Partial reduction]
         v, d, v2, v3, z = part_euclid(A, C, self.L)
+        if z % 2 == 1:   # final computations of PARTEUCL
+            v2 = -v2
+            v3 = -v3
         # [Special case]
         if z == 0:
             g = (B * v3 + c) // d
@@ -225,10 +232,52 @@ class BQuadForm:
         return BQuadForm(a2, b2, disc = self.disc)
 
     # cubing (NUCUBE algorithm)
-    # TODO
+    # reference: Algorithm 2.4 (p.23) of Sayles -
+    # "Improved Arithmetic in the Ideal Class Group of Imaginary Quadratic Number Fields
+    # with an Application to Integer Factoring"
     def cube(self):
-        # I prefer Cohen-style similar to NUDUPL above, but still OK if that's not possible
-        pass
+        a1 = self.a
+        b1 = self.b
+        c1 = self.c
+        # if self is an ambiguous class (see Definition 4.1.1, p.43 of Sayles), then its cube is itself
+        if b1 == 0 or a1 == b1 or a1 == c1:
+            return self
+        _, Y1, s1 = ext_euclid(a1, b1)   # apostrophe is replaced by 1
+        if s1 == 1:
+            s = 1
+            N = a1
+            L = N * a1
+            # U = Y' * c1 (Y' (b1 − Y' * c1 * a1) - 2) (mod L)
+            U = (c1 * a1) % L
+            U = (Y1 * U) % L
+            U = (Y1 * (b1 - U)) % L
+            U = (Y1 * (U - 2)) % L
+            U = (c1 * U) % L
+        else:
+            X, Y, s = ext_euclid(s1 * a1, (b1 ** 2) - (a1 * c1))
+            N = a1 // s
+            L = N * a1
+            # U = -c1 (X * Y' * a1 + Y * b1) (mod L)
+            U = (Y * b1) % L
+            U += (X * Y1 * a1) % L
+            U = (-c1 * U) % L
+        C2, _, C1, R1, i = part_euclid(U, L, isqrt(a1) * self.L, C2 = -1, C1 = 0)
+        # [Special case]
+        if i == 0:
+            a = N * L
+            b = b1 + ((U * N) << 1)
+            return BQuadForm(a, b, disc = self.disc)
+        # [Final computations]
+        M1 = (R1 + C1 * U) // a1
+        # note: M2 here is from getamis/alice. This is NOT equivalent to the M2 in Sayles's paper
+        M2 = (R1 * (b1 + U * N) - s * C1 * c1) // L
+        a = R1 * M1 - C1 * M2
+        if i % 2 == 0:   # (-1)^(i + 1)
+            a = -a
+        b = ((R1 * N - C2 * a) << 1) // C1 - b1
+        if a < 0:   # ensure positive-definiteness
+            a = -a
+        return BQuadForm(a, b, disc = self.disc)
 
     # exponentiation using Non-Adjacent Form (NAF) of an integer
     # reference: Algorithm 3.1 (p.27) of Sayles -
