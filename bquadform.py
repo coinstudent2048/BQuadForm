@@ -96,6 +96,10 @@ class BQuadForm:
             return self.a == y.a and self.b == y.b and self.c == y.c and self.disc == y.disc
         raise TypeError("syntax error")
 
+    # string representation
+    def __repr__(self):
+        return str((self.a, self.b, self.c)) + " disc: " + str(self.disc)
+
     # inverse of primitive quadratic form
     # reference: Equation 2.3 (p.12) of Sayles -
     # "Improved Arithmetic in the Ideal Class Group of Imaginary Quadratic Number Fields
