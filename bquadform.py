@@ -154,7 +154,6 @@ class BQuadForm:
             # [Initialization of reduction]
             l = (-u1 * (u * (c1 % d) + v * (c2 % d))) % d
             A = -u * (n // d) + l * (a1 // d)
-
         # [Partial reduction]
         A %= a1
         A1 = a1 - A
@@ -239,7 +238,8 @@ class BQuadForm:
         a1 = self.a
         b1 = self.b
         c1 = self.c
-        # if self is an ambiguous class (see Definition 4.1.1, p.43 of Sayles), then its cube is itself
+        # if self is an ambiguous class, then its cube is itself
+        # reference: Definition 4.1.1 (p.43) of Sayles
         if b1 == 0 or a1 == b1 or a1 == c1:
             return self
         _, Y1, s1 = ext_euclid(a1, b1)   # apostrophe is replaced by 1
@@ -269,7 +269,6 @@ class BQuadForm:
             return BQuadForm(a, b, disc = self.disc)
         # [Final computations]
         M1 = (R1 + C1 * U) // a1
-        # note: M2 here is from getamis/alice. This is NOT equivalent to the M2 in Sayles's paper
         M2 = (R1 * (b1 + U * N) - s * C1 * c1) // L
         a = R1 * M1 - C1 * M2
         if i % 2 == 0:   # (-1)^(i + 1)
