@@ -64,12 +64,12 @@ def ext_euclid(a, b):
 # reference: Sub-algorithm PARTEUCL(a, b) (p. 248) of Cohen -
 # "A Course in Computational Algebraic Number theory" (GTM 138)
 # note: this is modified to accommodate NUCUBE
-def part_euclid(a, b, L, C2 = 0, C1 = 1):   # default C2 and C1 are from Cohen
+def part_euclid(R2, R1, C2, C1, L):
     # [Initialize]
     v = C2
-    d = a   # = R2 from Sayles
+    d = R2
     v2 = C1
-    v3 = b   # = R1 from Sayles
+    v3 = R1
     z = 0
     # [Finished?]
     while abs(v3) > L:
@@ -81,7 +81,6 @@ def part_euclid(a, b, L, C2 = 0, C1 = 1):   # default C2 and C1 are from Cohen
         v2 = t2
         v3 = t3
         z += 1
-    # final computations moved to NUCOMP and NUDUPL functions
     return (v, d, v2, v3, z)
 
 # TODO: implement Lehmer variants for ext_euclid and part_euclid
