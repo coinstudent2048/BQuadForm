@@ -135,7 +135,6 @@ class BQuadForm:
             a2 = self.a
             b2 = self.b
             c2 = self.c
-
         s = (b1 + b2) >> 1
         n = b2 - s
         # [First Euclidean step]
@@ -163,7 +162,8 @@ class BQuadForm:
         A1 = a1 - A
         if A1 < A:
             A = -A1
-        v, d, v2, v3, z = part_euclid(a1, A, self.L)
+        # input sequence: R2 = d, R1 = v3, C2 = v, C1 = v2, L = bound
+        v, d, v2, v3, z = part_euclid(a1, A, 0, 1, self.L)
         if z % 2 == 1:   # final computations of PARTEUCL
             v2 = -v2
             v3 = -v3
@@ -210,7 +210,8 @@ class BQuadForm:
         if C1 < C:
             C = -C1
         # [Partial reduction]
-        v, d, v2, v3, z = part_euclid(A, C, self.L)
+        # input sequence: R2 = d, R1 = v3, C2 = v, C1 = v2, L = bound
+        v, d, v2, v3, z = part_euclid(A, C, 0, 1, self.L)
         if z % 2 == 1:   # final computations of PARTEUCL
             v2 = -v2
             v3 = -v3
@@ -246,6 +247,7 @@ class BQuadForm:
         # reference: Definition 4.1.1 (p.43) of Sayles
         if b1 == 0 or a1 == b1 or a1 == c1:
             return self
+        # [First Euclidean step]
         _, Y1, s1 = ext_euclid(a1, b1)   # apostrophe is replaced by 1
         if s1 == 1:
             s = 1
@@ -258,6 +260,7 @@ class BQuadForm:
             U = (Y1 * (U - 2)) % L
             U = (c1 * U) % L
         else:
+            # [Second Euclidean step]
             X, Y, s = ext_euclid(s1 * a1, (b1 ** 2) - (a1 * c1))
             N = a1 // s
             L = N * a1
@@ -265,7 +268,9 @@ class BQuadForm:
             U = (Y * b1) % L
             U += (X * Y1 * a1) % L
             U = (-c1 * U) % L
-        C2, _, C1, R1, i = part_euclid(U, L, isqrt(a1) * self.L, C2 = -1, C1 = 0)
+        # [Partial reduction]
+        # input sequence: R2 = d, R1 = v3, C2 = v, C1 = v2, L = bound
+        C2, _, C1, R1, i = part_euclid(U, L, -1, 0, isqrt(a1) * self.L)
         # [Special case]
         if i == 0:
             a = N * L
@@ -309,6 +314,5 @@ class BQuadForm:
         return R
 
     # TODO: implement exponentiation using 2,3 Double-Base Number System (DNBS)
-    # the DNBS based exponentiation will replace NAF based, but don't delete the NAF based exp
-    # instead, rename the NAF based exp function as "exp_naf"
+    # the DNBS based exponentiation must be named "exp_dnbs"
     # the DNBS utils (if there are any) must be implemented in bquadform_utils.py
