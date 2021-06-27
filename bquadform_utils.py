@@ -63,13 +63,8 @@ def ext_euclid(a, b):
 # extended partial Euclidean algorithm
 # reference: Sub-algorithm PARTEUCL(a, b) (p. 248) of Cohen -
 # "A Course in Computational Algebraic Number theory" (GTM 138)
-# note: this is modified to accommodate NUCUBE
-def part_euclid(R2, R1, C2, C1, L):
+def part_euclid(d, v3, v, v2, L):
     # [Initialize]
-    v = C2
-    d = R2
-    v2 = C1
-    v3 = R1
     z = 0
     # [Finished?]
     while abs(v3) > L:
