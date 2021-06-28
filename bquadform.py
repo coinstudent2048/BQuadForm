@@ -101,10 +101,8 @@ class BQuadForm:
         return str((self.a, self.b, self.c)) + " disc: " + str(self.disc)
 
     # inverse of primitive quadratic form
-    # reference: Equation 2.3 (p.12) of Sayles -
-    # "Improved Arithmetic in the Ideal Class Group of Imaginary Quadratic Number Fields
-    # with an Application to Integer Factoring"
-    # https://prism.ucalgary.ca/bitstream/handle/11023/752/ucalgary_2013_sayles_maxwell.pdf
+    # reference: p.250 of Cohen -
+    # "A Course in Computational Algebraic Number theory" (GTM 138)
     def inverse(self):
         return BQuadForm(self.a, -self.b, self.c)
 
@@ -164,7 +162,7 @@ class BQuadForm:
             A = -A1
         # input sequence: d, v3, v, v2, L = bound
         v, d, v2, v3, z = part_euclid(a1, A, 0, 1, self.L)
-        if z % 2 == 1:   # final computations of PARTEUCL
+        if z % 2 == 1:   # [Finished?] cont. of PARTEUCL
             v2 = -v2
             v3 = -v3
         # [Special case]
@@ -187,8 +185,8 @@ class BQuadForm:
         Q4 = Q3 - s
         g = Q4 // v
         if d1 > 1:
-            v2 = d1 * v2
-            v = d1 * v
+            v2 *= d1
+            v *= d1
         a3 = d * b + e * v
         # c3 = v3 * f + g * v2   # not required if disc is provided
         b3 = Q1 + Q2 + d1 * (Q3 + Q4)
@@ -212,7 +210,7 @@ class BQuadForm:
         # [Partial reduction]
         # input sequence: d, v3, v, v2, L = bound
         v, d, v2, v3, z = part_euclid(A, C, 0, 1, self.L)
-        if z % 2 == 1:   # final computations of PARTEUCL
+        if z % 2 == 1:   # [Finished?] cont. of PARTEUCL
             v2 = -v2
             v3 = -v3
         # [Special case]
