@@ -76,8 +76,7 @@ def part_euclid(d, v3, v, v2, L):
         v2 = t2
         v3 = t3
         z += 1
+    # [Finished?] cont. moved to main functions
     return (v, d, v2, v3, z)
 
-# TODO: implement Lehmer variants for ext_euclid and part_euclid
-# the Lehmer variants will replace original, but don't delete the originals
-# instead, rename the originals as "ext_euclid_orig" and "part_euclid_orig"
+# TODO: implement Lehmer's improvement for ext_euclid and part_euclid
