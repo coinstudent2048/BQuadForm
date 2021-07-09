@@ -79,7 +79,6 @@ class TestBQuadForm(unittest.TestCase):
         self.assertEqual((test.a, test.b, test.c), (101, 38, 4898))
         test = BQuadForm(101, 38, 4898) ** 22999971
         self.assertEqual((test.a, test.b, test.c), (101, 38, 4898))
-    # note: the naming convention is "test_<func name>". remove prefix and suffix underscores in dunders
 
 if __name__ == '__main__':
     unittest.main()
