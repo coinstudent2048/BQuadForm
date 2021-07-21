@@ -4,8 +4,6 @@ An implementation of some mathematics of "Class group of Positive-definite Binar
 
 Implementation of some applications especially in cryptography yet to be decided.
 
-**UNVERIFIED!!!** I need help in checking the correctness of algorithms.
-
 **WARNING:** Use the exact codes only for prototyping. For production usage, the codes **must be properly modified and audited!**
 
 References:

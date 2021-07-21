@@ -79,4 +79,4 @@ def part_euclid(d, v3, v, v2, L):
     # [Finished?] cont. moved to main functions
     return (v, d, v2, v3, z)
 
-# TODO: implement Lehmer's improvement for ext_euclid and part_euclid
+# enhancement: Lehmer's algorithm for ext_euclid and part_euclid
