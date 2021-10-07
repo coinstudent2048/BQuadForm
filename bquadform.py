@@ -2,7 +2,7 @@
 #
 # Use this code only for prototyping
 
-from bquadform_utils import isqrt, divmod_euclid, ext_euclid, part_euclid
+from bquadform_utils import *
 
 class BQuadForm:
     def __init__(self, a, b, c = None, disc = None):
@@ -136,7 +136,7 @@ class BQuadForm:
         s = (b1 + b2) >> 1
         n = b2 - s
         # [First Euclidean step]
-        u, v ,d = ext_euclid(a2, a1)
+        u, v ,d = ext_euclid_front(a2, a1)
         if s % d == 0:   # if d|s
             A = -u * n
             d1 = d
@@ -146,7 +146,7 @@ class BQuadForm:
                 s //= d1
         else:   # if not d|s
             # [Second Euclidean step]
-            u1, v1, d1 = ext_euclid(s, d)
+            u1, v1, d1 = ext_euclid_front(s, d)
             if d1 > 1:
                 a1 //= d1
                 a2 //= d1
@@ -200,7 +200,7 @@ class BQuadForm:
         b = self.b
         c = self.c
         # [Euclidean step]
-        u, _, d1 = ext_euclid(b, a)
+        u, _, d1 = ext_euclid_front(b, a)
         A = a // d1
         B = b // d1
         C = (- c * u) % A
