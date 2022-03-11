@@ -5,7 +5,7 @@
 from bquadform_utils import *
 
 class BQuadForm:
-    def __init__(self, a, b, c = None, disc = None):
+    def __init__(self, a, b, c=None, disc=None):
         if (c == None and disc == None) or (c != None and disc != None):
             raise AttributeError("invalid arguments")
         if not (isinstance(a, int) and isinstance(b, int)):

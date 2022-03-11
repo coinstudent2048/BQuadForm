@@ -3,21 +3,24 @@
 # Use this code only for prototyping
 
 # integer square root (floor)
-# source: https://stackoverflow.com/a/53983683
+# reference: Algorithm 1.7.1 (p.38) of Cohen -
+# "A Course in Computational Algebraic Number theory" (GTM 138)
 def isqrt(n):
     if not isinstance(n, int):
         raise TypeError("input is not integer")
-    if n > 0:
-        x = 1 << (n.bit_length() + 1 >> 1)
-        while True:
-            y = (x + n // x) >> 1
-            if y >= x:
-                return x
-            x = y
-    elif n == 0:
-        return 0
-    else:
+    if n < 0:
         raise ValueError("input is negative")
+    if n == 0:
+        return 0
+    # [Initialize]
+    x = 1 << (n.bit_length() + 2 >> 1)
+    while True:
+        # [Newtonian step]
+        y = (x + n // x) >> 1
+        # [Finished?]
+        if y >= x:
+            return x
+        x = y
 
 # # integer square root (ceiling)
 # def isqrt_ceil(n):
@@ -38,7 +41,7 @@ def divmod_euclid(a, b):
 # extended Euclidean algorithm (assumes a >= 0 & b >= 0)
 # reference: Algorithm 1.3.6 (p.16) of Cohen -
 # "A Course in Computational Algebraic Number theory" (GTM 138)
-def ext_euclid(a, b, u = 1, v1 = 0):
+def ext_euclid(a, b, u=1, v1=0):
     # [Initialize]
     d = a
     # v to be computed in ext_euclid_front()
@@ -87,13 +90,12 @@ def same_msd(a, b, M):
 # Lehmer extended (assumes a >= b, a >= 0, and b >= 0)
 # reference: Algorithm 1.3.7 (p. 17) of Cohen -
 # "A Course in Computational Algebraic Number theory" (GTM 138)
-# my comment: for some reason, this is slower?!
 def lehmer(a, b, M):
     # [Initialize]
     u = 1
     v1 = 0
     # [Finished?]
-    while abs(b) >= M:
+    while b >= M:
         a_hat, b_hat = same_msd(a, b, M)
         A = 1
         B = 0
@@ -134,7 +136,7 @@ def lehmer(a, b, M):
     return a, b, u, v1
 
 # "frontend" for extended Euclidean algorithm
-def ext_euclid_front(a, b, use_lehmer = True, M = 1 << 32):
+def ext_euclid_front(a, b, use_lehmer=True, M=(1 << 32)):
     # init: the algorithms assume that a >= 0 & b >= 0
     orig_a = a
     orig_b = b
