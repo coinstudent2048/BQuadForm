@@ -76,7 +76,7 @@ def part_euclid(d, v3, v, v2, L):
         v2 = t2
         v3 = t3
         z += 1
-    # [Finished?] cont. moved to main functions
+    # [Finished?] cont. moved to part_euclid_front()
     return (v, d, v2, v3, z)
 
 # most significant digit of a, and the value of b in same place
@@ -151,16 +151,16 @@ def ext_euclid_front(a, b, use_lehmer=True, M=(1 << 32)):
         b, a, u, v1 = lehmer(b, a, M)
         u, d = ext_euclid(b, a, u, v1)
         v = u
-        u = (d - bt * v) // at
+        u = (d - bt * v) // at   # [Finished?] cont. of Euclid Extended
     elif use_lehmer:
         at = a
         bt = b
         a, b, u, v1 = lehmer(a, b, M)
         u, d = ext_euclid(a, b, u, v1)
-        v = (d - at * u) // bt
+        v = (d - at * u) // bt   # [Finished?] cont. of Euclid Extended
     else:
         u, d = ext_euclid(a, b)
-        v = (d - a * u) // b
+        v = (d - a * u) // b   # [Finished?] cont. of Euclid Extended
     # final: check sign of orig a & b
     if orig_a < 0:
         a = -a
@@ -169,3 +169,13 @@ def ext_euclid_front(a, b, use_lehmer=True, M=(1 << 32)):
         b = -b
         v = -v
     return (u, v, d)
+
+# "frontend" for extended partial Euclidean algorithm
+def part_euclid_front(d, v3, v, v2, L):   # TODO: use_lehmer=True, M=(1 << 32)
+    # execute algorithms
+    v, d, v2, v3, z = part_euclid(d, v3, v, v2, L)
+    # final: [Finished?] cont. of PARTEUCL
+    if z % 2 == 1:
+        v2 = -v2
+        v3 = -v3
+    return (v, d, v2, v3, z)

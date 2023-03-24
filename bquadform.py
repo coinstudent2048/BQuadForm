@@ -161,10 +161,7 @@ class BQuadForm:
         if A1 < A:
             A = -A1
         # input sequence: d, v3, v, v2, L = bound
-        v, d, v2, v3, z = part_euclid(a1, A, 0, 1, self.L)
-        if z % 2 == 1:   # [Finished?] cont. of PARTEUCL
-            v2 = -v2
-            v3 = -v3
+        v, d, v2, v3, z = part_euclid_front(a1, A, 0, 1, self.L)
         # [Special case]
         if z == 0:
             Q1 = a2 * v3
@@ -209,10 +206,7 @@ class BQuadForm:
             C = -C1
         # [Partial reduction]
         # input sequence: d, v3, v, v2, L = bound
-        v, d, v2, v3, z = part_euclid(A, C, 0, 1, self.L)
-        if z % 2 == 1:   # [Finished?] cont. of PARTEUCL
-            v2 = -v2
-            v3 = -v3
+        v, d, v2, v3, z = part_euclid_front(A, C, 0, 1, self.L)
         # [Special case]
         if z == 0:
             g = (B * v3 + c) // d
